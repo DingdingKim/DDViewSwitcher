@@ -1,6 +1,6 @@
 //
 //  DDTextSwitcher.swift
-//  DDTextSwitcher
+//  DDViewSwitcher
 //
 //  Created by DingMac on 2017. 6. 15..
 //  Copyright © 2017년 Dingding. All rights reserved.
