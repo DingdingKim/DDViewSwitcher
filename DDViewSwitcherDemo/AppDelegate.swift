@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  DDViewSwitcher
 //
-//  Created by DingMac on 2017. 6. 23..
+//  Created by DingMac on 2017. 6. 22..
 //  Copyright © 2017년 DingdingKim. All rights reserved.
 //
 
@@ -16,6 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        UIApplication.shared.statusBarStyle = .lightContent
+        
         return true
     }
 
