@@ -6,6 +6,6 @@ s.homepage     = "https://github.com/DingdingKim/DDViewSwitcher"
 s.license      = { :type => "MIT" }
 s.author       = { "Dingding Kim" => "twlovesh89@gmail.com" }
 s.source       = { :git => "https://github.com/DingdingKim/DDViewSwitcher.git", :tag => s.version }
-s.source_files  = "Classes", "Classes/**/*.{swift}"
+s.source_files  = "DDViewSwitcher", "Classes/**/*.{swift}"
 s.ios.deployment_target = "8.0"
 end
