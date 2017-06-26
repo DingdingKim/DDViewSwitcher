@@ -37,8 +37,8 @@ Just three line!
 //  You want to change attributes and more detail, look other ViewController in this sample !
 //**************************************************
 
-let textSwitcher = DDTextSwitcher(frame: viewForSwitcher.bounds, data: arrData, scrollDirection: .vertical)
-viewForSwitcher.addSubview(textSwitcher)
+let textSwitcher = DDTextSwitcher(frame: self.view.bounds, data: ["item 1", "item 2"], scrollDirection: .vertical)
+self.view.addSubview(textSwitcher)
 textSwitcher.start()
 
 ```
