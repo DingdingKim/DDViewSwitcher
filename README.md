@@ -39,7 +39,7 @@ Just three line!
 
 let textSwitcher = DDTextSwitcher(frame: viewForSwitcher.bounds, data: arrData, scrollDirection: .vertical)
 viewForSwitcher.addSubview(textSwitcher)
-viewForSwitcher.start()
+textSwitcher.start()
 
 ```
 
