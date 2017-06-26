@@ -9,11 +9,11 @@ Like android's TextSwitcher or realtime ranking UI(text scroll up animaiton repe
 
 ## Demo
 
-![Sample Main menu](https://github.com/DingdingKim/DDViewSwitcher/blob/master/Screenshot/main_320.gif)
-![DDTextSwitcher](https://github.com/DingdingKim/DDViewSwitcher/blob/master/Screenshot/textSwitcher_320.gif)
-![DDImageSwitcher](https://github.com/DingdingKim/DDViewSwitcher/blob/master/Screenshot/imageSwitcher_320.gif)
-![DDTextSwitcher(Manually)](https://github.com/DingdingKim/DDViewSwitcher/blob/master/Screenshot/manualTextSwitcher_320.gif)
-![DDViewSwitcher](https://github.com/DingdingKim/DDViewSwitcher/blob/master/Screenshot/viewSwitcher_320.gif)
+![Sample Main menu](https://github.com/DingdingKim/DDViewSwitcher/blob/master/Screenshot/main.gif)
+![DDTextSwitcher](https://github.com/DingdingKim/DDViewSwitcher/blob/master/Screenshot/textSwitcher.gif)
+![DDImageSwitcher](https://github.com/DingdingKim/DDViewSwitcher/blob/master/Screenshot/imageViewSwitcher.gif)
+![DDTextSwitcher(Manually)](https://github.com/DingdingKim/DDViewSwitcher/blob/master/Screenshot/manualTextSwitcher.gif)
+![DDViewSwitcher](https://github.com/DingdingKim/DDViewSwitcher/blob/master/Screenshot/viewSwitcher.gif)
 
 ## Installation
 
@@ -28,7 +28,7 @@ pod "DDViewSwitcher"
 
 ## Usage
 
-Just two line!
+Just three line!
 
 ```Swift
 
@@ -39,6 +39,7 @@ Just two line!
 
 let textSwitcher = DDTextSwitcher(frame: viewForSwitcher.bounds, data: arrData, scrollDirection: .vertical)
 viewForSwitcher.addSubview(textSwitcher)
+viewForSwitcher.start()
 
 ```
 

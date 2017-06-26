@@ -8,25 +8,25 @@
 
 import UIKit
 
-class DDViewSwitcher: UIView {
+open class DDViewSwitcher: UIView {
     
     private var viewCenter = UILabel()
     private var viewNext = UILabel()
 
-    public var isScrolling = false
-    public var isAutoScroll = true
-    public var isInfiniteScrolling = true
+    open var isScrolling = false
+    open var isAutoScroll = true
+    open var isInfiniteScrolling = true
     
-    public var arrData = [UIView]()
+    open var arrData = [UIView]()
     
     //Index of current data
-    var indexSwitcher: Int = 0
+    private var indexSwitcher: Int = 0
     
     //Default value of animation
-    public var duration = 1.0
-    public var delay = 1.0
+    open var duration = 1.0
+    open var delay = 1.0
 
-    public var scrollDirection: ScrollDirection = .vertical
+    open var scrollDirection: ScrollDirection = .vertical
     
     public enum ScrollDirection: String {
         case horizontral = "horizontral"
@@ -55,8 +55,8 @@ class DDViewSwitcher: UIView {
     }
     
     //Action when view is tapped
-    public var tapAction: ((Void) -> Void)?
-    public var finishScrollAction: ((Void) -> Void)?
+    open var tapAction: ((Void) -> Void)?
+    open var finishScrollAction: ((Void) -> Void)?
     
     public init(frame: CGRect, data: [UIView], scrollDirection: ScrollDirection) {
         super.init(frame: frame)
@@ -76,7 +76,7 @@ class DDViewSwitcher: UIView {
     }
     
     //Initiallize switcher view. set default values.
-    func initSwitcher(){
+    open func initSwitcher(){
         self.removeFromSuperview()
         
         clipsToBounds = true
@@ -100,7 +100,7 @@ class DDViewSwitcher: UIView {
     }
     
     //Scroll stop
-    func stop(){
+    open func stop(){
         if(isAutoScroll){
             isScrolling = false
         }
@@ -110,7 +110,7 @@ class DDViewSwitcher: UIView {
     }
     
     //Scroll start
-    func start(){
+    open func start(){
         if(isAutoScroll){
             isScrolling = true
             updateSwitcherAnimation()
@@ -121,7 +121,7 @@ class DDViewSwitcher: UIView {
     }
     
     //Scroll reset
-    func reset(){
+    open func reset(){
         indexSwitcher = 0
         self.viewCenter.frame.origin = pointNormal
         self.viewNext.frame.origin = (self.scrollDirection == .vertical) ? self.pointVerticalOverBottom : self.pointHorizontalOverRight
@@ -132,7 +132,7 @@ class DDViewSwitcher: UIView {
     }
 
     //Animate to next text
-    func next(){
+    open func next(){
         if(isAutoScroll){
             debugPrint("DDTextSwitcherLabel >> You can't call next() method. 'isAutoScroll' value is true")
         }
@@ -142,7 +142,7 @@ class DDViewSwitcher: UIView {
     }
     
     //****************************
-    func updateSwitcherAnimation() {
+    open func updateSwitcherAnimation() {
         UIView.animate(withDuration: duration, delay: delay, options: [], animations: { () -> Void in
             
             self.viewCenter.frame.origin = (self.scrollDirection == .vertical) ? self.pointVerticalOverTop : self.pointHorizontalOverLeft
@@ -192,13 +192,13 @@ class DDViewSwitcher: UIView {
     }
     
     //Tap action handler
-    func didTap(sender: UITapGestureRecognizer) {
+    open func didTap(sender: UITapGestureRecognizer) {
         guard let action = self.tapAction else { return /*didn't set closure*/}
         action()
     }
     
     //scroll finish(Only isInfiniteScrolling is false) action handler
-    func finishScroll() {
+    open func finishScroll() {
         guard let action = self.finishScrollAction else { return /*didn't set closure*/}
         action()
     }

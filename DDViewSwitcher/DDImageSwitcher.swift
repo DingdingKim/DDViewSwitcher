@@ -8,25 +8,25 @@
 
 import UIKit
 
-class DDImageSwitcher: UIView {
+open class DDImageSwitcher: UIView {
     
     private var imgCenter = UIImageView()
     private var imgNext = UIImageView()
 
-    public var isScrolling = false
-    public var isAutoScroll = true
-    public var isInfiniteScrolling = true
+    open var isScrolling = false
+    open var isAutoScroll = true
+    open var isInfiniteScrolling = true
     
-    public var arrData = [String]()
+    open var arrData = [String]()
     
     //Index of current data
-    var indexSwitcher: Int = 0
+    open var indexSwitcher: Int = 0
     
     //Default value of animation
-    public var duration = 1.0
-    public var delay = 1.0
+    open var duration = 1.0
+    open var delay = 1.0
 
-    public var scrollDirection: ScrollDirection = .vertical
+    open var scrollDirection: ScrollDirection = .vertical
     
     public enum ScrollDirection: String {
         case horizontral = "horizontral"
@@ -55,8 +55,8 @@ class DDImageSwitcher: UIView {
     }
     
     //Action when view is tapped
-    public var tapAction: ((Void) -> Void)?
-    public var finishScrollAction: ((Void) -> Void)?
+    open var tapAction: ((Void) -> Void)?
+    open var finishScrollAction: ((Void) -> Void)?
     
     public init(frame: CGRect, data: [String], scrollDirection: ScrollDirection) {
         super.init(frame: frame)
@@ -76,7 +76,7 @@ class DDImageSwitcher: UIView {
     }
     
     //Initiallize switcher view. set default values.
-    func initSwitcher(){
+    private func initSwitcher(){
         self.removeFromSuperview()
         
         clipsToBounds = true
@@ -102,7 +102,7 @@ class DDImageSwitcher: UIView {
     }
     
     //Scroll stop
-    func stop(){
+    open func stop(){
         if(isAutoScroll){
             isScrolling = false
         }
@@ -112,7 +112,7 @@ class DDImageSwitcher: UIView {
     }
     
     //Scroll start
-    func start(){
+    open func start(){
         if(isAutoScroll){
             isScrolling = true
             updateSwitcherAnimation()
@@ -123,7 +123,7 @@ class DDImageSwitcher: UIView {
     }
     
     //Scroll reset
-    func reset(){
+    open func reset(){
         indexSwitcher = 0
         self.imgCenter.frame.origin = pointNormal
         self.imgNext.frame.origin = (self.scrollDirection == .vertical) ? self.pointVerticalOverBottom : self.pointHorizontalOverRight
@@ -134,7 +134,7 @@ class DDImageSwitcher: UIView {
     }
 
     //Animate to next text
-    func next(){
+    open func next(){
         if(isAutoScroll){
             debugPrint("DDTextSwitcherLabel >> You can't call next() method. 'isAutoScroll' value is true")
         }
@@ -144,13 +144,13 @@ class DDImageSwitcher: UIView {
     }
     
     //Set UIImageView contentMode
-    public func setContentMode(contentMode: UIViewContentMode) {
+    open func setContentMode(contentMode: UIViewContentMode) {
         imgCenter.contentMode = contentMode
         imgNext.contentMode = contentMode
     }
     
     //****************************
-    func updateSwitcherAnimation() {
+    open func updateSwitcherAnimation() {
         UIView.animate(withDuration: duration, delay: delay, options: [], animations: { () -> Void in
             
             self.imgCenter.frame.origin = (self.scrollDirection == .vertical) ? self.pointVerticalOverTop : self.pointHorizontalOverLeft
@@ -193,13 +193,13 @@ class DDImageSwitcher: UIView {
     }
     
     //Tap action handler
-    func didTap(sender: UITapGestureRecognizer) {
+    open func didTap(sender: UITapGestureRecognizer) {
         guard let action = self.tapAction else { return /*didn't set closure*/}
         action()
     }
     
     //scroll finish(Only isInfiniteScrolling is false) action handler
-    func finishScroll() {
+    open func finishScroll() {
         guard let action = self.finishScrollAction else { return /*didn't set closure*/}
         action()
     }

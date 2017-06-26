@@ -8,31 +8,31 @@
 
 import UIKit
 
-class DDTextSwitcher: UIView {
+open class DDTextSwitcher: UIView {
     
     private var lbCenter = UILabel()
     private var lbNext = UILabel()
-
-    public var isScrolling = false
-    public var isAutoScroll = true
-    public var isInfiniteScrolling = true
     
-    public var arrData = [String]()
+    open var isScrolling = false
+    open var isAutoScroll = true
+    open var isInfiniteScrolling = true
+    
+    open var arrData = [String]()
     
     //Index of current data
-    var indexSwitcher: Int = 0
+    open var indexSwitcher: Int = 0
     
     //Default value of animation
-    public var duration = 1.0
-    public var delay = 1.0
-
-    public var scrollDirection: ScrollDirection = .vertical
+    open var duration = 1.0
+    open var delay = 1.0
+    
+    open var scrollDirection: ScrollDirection = .vertical
     
     public enum ScrollDirection: String {
         case horizontal = "horizontal"
         case vertical = "vertical"
     }
-
+    
     private var pointVerticalOverTop: CGPoint{
         return CGPoint(x: 0, y: -self.frame.height)
     }
@@ -40,7 +40,7 @@ class DDTextSwitcher: UIView {
     private var pointVerticalOverBottom: CGPoint{
         return CGPoint(x: 0, y: self.frame.height)
     }
-
+    
     private var pointHorizontalOverLeft: CGPoint{
         return CGPoint(x: -self.frame.width, y: 0)
     }
@@ -54,13 +54,13 @@ class DDTextSwitcher: UIView {
         return CGPoint(x: 0, y: 0)
     }
     
-    public var currentText: String {
+    open var currentText: String {
         return lbCenter.text!
     }
     
     //Action when view is tapped
-    public var tapAction: ((Void) -> Void)?
-    public var finishScrollAction: ((Void) -> Void)?
+    open var tapAction: ((Void) -> Void)?
+    open var finishScrollAction: ((Void) -> Void)?
     
     public init(frame: CGRect, data: [String], scrollDirection: ScrollDirection) {
         super.init(frame: frame)
@@ -80,7 +80,7 @@ class DDTextSwitcher: UIView {
     }
     
     //Initiallize switcher view. set default values.
-    func initSwitcher(){
+    private func initSwitcher(){
         self.removeFromSuperview()
         
         clipsToBounds = true
@@ -112,7 +112,7 @@ class DDTextSwitcher: UIView {
     }
     
     //Scroll stop
-    func stop(){
+    open func stop(){
         if(isAutoScroll){
             isScrolling = false
         }
@@ -122,7 +122,7 @@ class DDTextSwitcher: UIView {
     }
     
     //Scroll start
-    func start(){
+    open func start(){
         if(isAutoScroll){
             isScrolling = true
             updateSwitcherAnimation()
@@ -133,7 +133,7 @@ class DDTextSwitcher: UIView {
     }
     
     //Scroll reset
-    func reset(){
+    open func reset(){
         indexSwitcher = 0
         self.lbCenter.frame.origin = pointNormal
         self.lbNext.frame.origin = (self.scrollDirection == .vertical) ? self.pointVerticalOverBottom : self.pointHorizontalOverRight
@@ -142,9 +142,9 @@ class DDTextSwitcher: UIView {
         indexSwitcher += 1
         lbNext.text = arrData[indexSwitcher]
     }
-
+    
     //Animate to next text
-    func next(){
+    open func next(){
         if(isAutoScroll){
             debugPrint("DDTextSwitcherLabel >> You can't call next() method. 'isAutoScroll' value is true")
         }
@@ -154,31 +154,31 @@ class DDTextSwitcher: UIView {
     }
     
     //Set UILabel text color
-    public func setTextColor(color: UIColor) {
+    open func setTextColor(color: UIColor) {
         lbCenter.textColor = color
         lbNext.textColor = color
     }
     
     //Set UILabel text size
-    public func setTextSize(size: CGFloat) {
+    open func setTextSize(size: CGFloat) {
         lbCenter.font = lbCenter.font.withSize(size)
         lbNext.font = lbNext.font.withSize(size)
     }
     
     //Set UILabel text alignment
-    public func setTextAlignment(align: NSTextAlignment) {
+    open func setTextAlignment(align: NSTextAlignment) {
         lbCenter.textAlignment = align
         lbNext.textAlignment = align
     }
     
     //Set UILabel number of Lines
-    public func setNumberOfLines(numberOfLines: Int) {
+    open func setNumberOfLines(numberOfLines: Int) {
         lbCenter.numberOfLines = 0
         lbNext.numberOfLines = 0
     }
     
     //****************************
-    func updateSwitcherAnimation() {
+    private func updateSwitcherAnimation() {
         UIView.animate(withDuration: duration, delay: delay, options: [], animations: { () -> Void in
             
             self.lbCenter.frame.origin = (self.scrollDirection == .vertical) ? self.pointVerticalOverTop : self.pointHorizontalOverLeft
@@ -191,7 +191,7 @@ class DDTextSwitcher: UIView {
                 if(self.isInfiniteScrolling) {
                     self.indexSwitcher = 0
                 }
-                //Scroll is end
+                    //Scroll is end
                 else {
                     self.indexSwitcher = self.indexSwitcher + 1
                     self.lbCenter.text = self.lbNext.text
@@ -213,7 +213,7 @@ class DDTextSwitcher: UIView {
             
             self.lbCenter.frame.origin = self.pointNormal
             self.lbNext.frame.origin = (self.scrollDirection == .vertical) ? self.pointVerticalOverBottom : self.pointHorizontalOverRight
-
+            
             //This case is stop() is called.
             if(self.isScrolling){
                 self.updateSwitcherAnimation()
@@ -222,13 +222,13 @@ class DDTextSwitcher: UIView {
     }
     
     //Tap action handler
-    func didTap(sender: UITapGestureRecognizer) {
+    open func didTap(sender: UITapGestureRecognizer) {
         guard let action = self.tapAction else { return /*didn't set closure*/}
         action()
     }
     
     //scroll finish(Only isInfiniteScrolling is false) action handler
-    func finishScroll() {
+    open func finishScroll() {
         guard let action = self.finishScrollAction else { return /*didn't set closure*/}
         action()
     }
