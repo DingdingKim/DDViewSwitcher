@@ -18,7 +18,6 @@ class VCMain: UIViewController {
         self.title = "DDTextSwitcher"
         
         initTextSwitcher()
-        textSwitcher.start()
     }
     
     //**************************************************
@@ -47,9 +46,12 @@ class VCMain: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.title = "DDTextSwitcher"
+        textSwitcher.start()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.title = "Back"
+        
+        textSwitcher.stop()
     }
 }

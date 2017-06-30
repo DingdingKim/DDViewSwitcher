@@ -22,13 +22,14 @@ class VCViewSwitcher: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        makeCustomView()
+        makeData()
+        
         initSwitcher()
         switcher.start()
     }
     
     //Make your own view to be scrolled
-    func makeCustomView() {
+    func makeData() {
         //For background color
         let arrColor = [UIColor.blue, UIColor.purple, UIColor.red, UIColor.green, UIColor.brown]
         
@@ -78,6 +79,11 @@ class VCViewSwitcher: UIViewController {
         //Set action when scrolling is finish. This work only 'isInfiniteScrolling' is false
         switcher.finishScrollAction = {
             self.btStartOrStop.setTitle("Restart", for: .normal)
+        }
+        
+        //Set action when item is changed(scrolled)
+        switcher.didChangeItemAction = {
+            print("DDViewSwitcher >> didChangeItemAction !!")
         }
     }
     

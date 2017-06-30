@@ -33,26 +33,13 @@ open class DDTextSwitcher: UIView {
         case vertical = "vertical"
     }
     
-    private var pointVerticalOverTop: CGPoint{
-        return CGPoint(x: 0, y: -self.frame.height)
-    }
-    
-    private var pointVerticalOverBottom: CGPoint{
-        return CGPoint(x: 0, y: self.frame.height)
-    }
-    
-    private var pointHorizontalOverLeft: CGPoint{
-        return CGPoint(x: -self.frame.width, y: 0)
-    }
-    
-    private var pointHorizontalOverRight: CGPoint{
-        return CGPoint(x: self.frame.width, y: 0)
-    }
+    private var pointVerticalOverTop: CGPoint!
+    private var pointVerticalOverBottom: CGPoint!
+    private var pointHorizontalOverLeft: CGPoint!
+    private var pointHorizontalOverRight: CGPoint!
     
     //Center label point
-    private var pointNormal: CGPoint{
-        return CGPoint(x: 0, y: 0)
-    }
+    private var pointNormal: CGPoint!
     
     open var currentText: String {
         return lbCenter.text!
@@ -61,6 +48,7 @@ open class DDTextSwitcher: UIView {
     //Action when view is tapped
     open var tapAction: ((Void) -> Void)?
     open var finishScrollAction: ((Void) -> Void)?
+    open var didChangeItemAction: ((Void) -> Void)?
     
     public init(frame: CGRect, data: [String], scrollDirection: ScrollDirection) {
         super.init(frame: frame)
@@ -82,6 +70,12 @@ open class DDTextSwitcher: UIView {
     //Initiallize switcher view. set default values.
     private func initSwitcher(){
         self.removeFromSuperview()
+        
+        pointVerticalOverTop = CGPoint(x: 0, y: -self.frame.height)
+        pointVerticalOverBottom = CGPoint(x: 0, y: self.frame.height)
+        pointHorizontalOverLeft = CGPoint(x: -self.frame.width, y: 0)
+        pointHorizontalOverRight = CGPoint(x: self.frame.width, y: 0)
+        pointNormal = CGPoint(x: 0, y: 0)
         
         clipsToBounds = true
         
@@ -117,7 +111,7 @@ open class DDTextSwitcher: UIView {
             isScrolling = false
         }
         else {
-            debugPrint("DDTextSwitcherLabel >> You can't call stop() method. 'isAutoScroll' value is false")
+            debugPrint("DDTextSwitcher >> You can't call stop() method. 'isAutoScroll' value is false")
         }
     }
     
@@ -128,7 +122,7 @@ open class DDTextSwitcher: UIView {
             updateSwitcherAnimation()
         }
         else {
-            debugPrint("DDTextSwitcherLabel >> You can't call resume() method. 'isAutoScroll' value is false")
+            debugPrint("DDTextSwitcher >> You can't call resume() method. 'isAutoScroll' value is false")
         }
     }
     
@@ -185,13 +179,13 @@ open class DDTextSwitcher: UIView {
             self.lbNext.frame.origin = self.pointNormal
             
         }, completion: { (finished: Bool) in
-            
+
             if(self.indexSwitcher >= (self.arrData.count-1)){
                 //Index move to zero
                 if(self.isInfiniteScrolling) {
                     self.indexSwitcher = 0
                 }
-                    //Scroll is end
+                //Scroll is end
                 else {
                     self.indexSwitcher = self.indexSwitcher + 1
                     self.lbCenter.text = self.lbNext.text
@@ -199,7 +193,7 @@ open class DDTextSwitcher: UIView {
                     
                     self.finishScroll()
                     
-                    debugPrint("DDTextSwitcherLabel >> Scrolling is end. 'isInfiniteScrolling' value is false")
+                    debugPrint("DDTextSwitcher >> Scrolling is end. 'isInfiniteScrolling' value is false")
                     
                     return
                 }
@@ -214,8 +208,12 @@ open class DDTextSwitcher: UIView {
             self.lbCenter.frame.origin = self.pointNormal
             self.lbNext.frame.origin = (self.scrollDirection == .vertical) ? self.pointVerticalOverBottom : self.pointHorizontalOverRight
             
+            //call handler
+            self.didChangeItem()
+            
             //This case is stop() is called.
-            if(self.isScrolling){
+            //if without check 'finished' values updateSwitcherAnimation will execute repeatedly after view controller is dismiss.
+            if(finished && self.isScrolling){
                 self.updateSwitcherAnimation()
             }
         })
@@ -230,6 +228,12 @@ open class DDTextSwitcher: UIView {
     //scroll finish(Only isInfiniteScrolling is false) action handler
     open func finishScroll() {
         guard let action = self.finishScrollAction else { return /*didn't set closure*/}
+        action()
+    }
+    
+    //scroll finish(Only isInfiniteScrolling is false) action handler
+    open func didChangeItem() {
+        guard let action = self.didChangeItemAction else { return /*didn't set closure*/}
         action()
     }
 }

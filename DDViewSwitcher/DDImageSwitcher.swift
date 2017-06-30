@@ -32,31 +32,19 @@ open class DDImageSwitcher: UIView {
         case horizontral = "horizontral"
         case vertical = "vertical"
     }
-
-    private var pointVerticalOverTop: CGPoint{
-        return CGPoint(x: 0, y: -self.frame.height)
-    }
     
-    private var pointVerticalOverBottom: CGPoint{
-        return CGPoint(x: 0, y: self.frame.height)
-    }
-
-    private var pointHorizontalOverLeft: CGPoint{
-        return CGPoint(x: -self.frame.width, y: 0)
-    }
-    
-    private var pointHorizontalOverRight: CGPoint{
-        return CGPoint(x: self.frame.width, y: 0)
-    }
+    private var pointVerticalOverTop: CGPoint!
+    private var pointVerticalOverBottom: CGPoint!
+    private var pointHorizontalOverLeft: CGPoint!
+    private var pointHorizontalOverRight: CGPoint!
     
     //Center label point
-    private var pointNormal: CGPoint{
-        return CGPoint(x: 0, y: 0)
-    }
+    private var pointNormal: CGPoint!
     
     //Action when view is tapped
     open var tapAction: ((Void) -> Void)?
     open var finishScrollAction: ((Void) -> Void)?
+    open var didChangeItemAction: ((Void) -> Void)?
     
     public init(frame: CGRect, data: [String], scrollDirection: ScrollDirection) {
         super.init(frame: frame)
@@ -78,6 +66,12 @@ open class DDImageSwitcher: UIView {
     //Initiallize switcher view. set default values.
     private func initSwitcher(){
         self.removeFromSuperview()
+        
+        pointVerticalOverTop = CGPoint(x: 0, y: -self.frame.height)
+        pointVerticalOverBottom = CGPoint(x: 0, y: self.frame.height)
+        pointHorizontalOverLeft = CGPoint(x: -self.frame.width, y: 0)
+        pointHorizontalOverRight = CGPoint(x: self.frame.width, y: 0)
+        pointNormal = CGPoint(x: 0, y: 0)
         
         clipsToBounds = true
         
@@ -107,7 +101,7 @@ open class DDImageSwitcher: UIView {
             isScrolling = false
         }
         else {
-            debugPrint("DDTextSwitcherLabel >> You can't call stop() method. 'isAutoScroll' value is false")
+            debugPrint("DDImageSwitcher >> You can't call stop() method. 'isAutoScroll' value is false")
         }
     }
     
@@ -118,7 +112,7 @@ open class DDImageSwitcher: UIView {
             updateSwitcherAnimation()
         }
         else {
-            debugPrint("DDTextSwitcherLabel >> You can't call resume() method. 'isAutoScroll' value is false")
+            debugPrint("DDImageSwitcher >> You can't call resume() method. 'isAutoScroll' value is false")
         }
     }
     
@@ -170,7 +164,7 @@ open class DDImageSwitcher: UIView {
                     
                     self.finishScroll()
                     
-                    debugPrint("DDTextSwitcherLabel >> Scrolling is end. 'isInfiniteScrolling' value is false")
+                    debugPrint("DDImageSwitcher >> Scrolling is end. 'isInfiniteScrolling' value is false")
                     
                     return
                 }
@@ -184,9 +178,13 @@ open class DDImageSwitcher: UIView {
             
             self.imgCenter.frame.origin = self.pointNormal
             self.imgNext.frame.origin = (self.scrollDirection == .vertical) ? self.pointVerticalOverBottom : self.pointHorizontalOverRight
+            
+            //call handler
+            self.didChangeItem()
 
             //This case is stop() is called.
-            if(self.isScrolling){
+            //if without check 'finished' values updateSwitcherAnimation will execute repeatedly after view controller is dismiss.
+            if(finished && self.isScrolling){
                 self.updateSwitcherAnimation()
             }
         })
@@ -201,6 +199,12 @@ open class DDImageSwitcher: UIView {
     //scroll finish(Only isInfiniteScrolling is false) action handler
     open func finishScroll() {
         guard let action = self.finishScrollAction else { return /*didn't set closure*/}
+        action()
+    }
+    
+    //scroll finish(Only isInfiniteScrolling is false) action handler
+    open func didChangeItem() {
+        guard let action = self.didChangeItemAction else { return /*didn't set closure*/}
         action()
     }
 }
