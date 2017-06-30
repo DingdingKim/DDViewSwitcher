@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name         = "DDViewSwitcher"
-s.version      = "1.0.1"
+s.version      = "1.0.2"
 s.summary      = "With DDViewSwitcher, you can simply implement the effect of scrolling the view left and right with just two lines. like android TextSwitcher"
 s.homepage     = "https://github.com/DingdingKim/DDViewSwitcher"
 s.license      = { :type => "MIT" }
