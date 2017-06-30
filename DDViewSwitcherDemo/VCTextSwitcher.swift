@@ -25,16 +25,22 @@ class VCTextSwitcher: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Dummy data
-        for index in 0...5 {
-            arrData.append("Item : \(index)")
-        }
+        makeData()
         
         initTextSwitcherInfinite()
         initTextSwitcherOnce()
         
         textSwitcherInfinite.start()
         textSwitcherOnce.start()
+    }
+    
+    func makeData() {
+        arrData.removeAll()
+        
+        //Dummy data
+        for index in 0...5 {
+            arrData.append("Item : \(index)")
+        }
     }
     
     //Scroll Infinite switcher
@@ -56,6 +62,11 @@ class VCTextSwitcher: UIViewController {
         //Set action when DDTextSwitcher is tapped
         textSwitcherInfinite.tapAction = {
             print("Infinite DDTextSwitcher is Tapped ! : \(self.textSwitcherInfinite.currentText)")
+        }
+        
+        //Set action when item(text) is changed(scrolled)
+        textSwitcherInfinite.didChangeItemAction = {
+            print("Infinite DDTextSwitcher >> didChangeItemAction !!")
         }
     }
     
@@ -88,6 +99,11 @@ class VCTextSwitcher: UIViewController {
             self.btStartOrStopOnce.setTitle("Restart", for: .normal)
         }
         //***********************************************************
+        
+        //Set action when item(text) is changed(scrolled)
+        textSwitcherOnce.didChangeItemAction = {
+            print("Once DDTextSwitcher >> didChangeItemAction !!")
+        }
     }
     
     @IBAction func clickStartOrStop(_ sender: UIButton) {

@@ -22,16 +22,20 @@ class VCImageSwitcher: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Dummy data
-        //Images download at https://material.io/icons
-        let arrImageNames = ["ic_favorite_white_48pt", "ic_star_white_48pt", "ic_face_white_48pt", "ic_cake_white_48pt", "ic_mood_white_48pt"]
-
-        for imageName in arrImageNames {
-            arrData.append(imageName)
-        }
+        makeData()
         
         initSwitcher()
         switcher.start()
+    }
+    
+    func makeData() {
+        //Dummy data
+        //Images download at https://material.io/icons
+        let arrImageNames = ["ic_favorite_white_48pt", "ic_star_white_48pt", "ic_face_white_48pt", "ic_cake_white_48pt", "ic_mood_white_48pt"]
+        
+        for imageName in arrImageNames {
+            arrData.append(imageName)
+        }
     }
     
     func initSwitcher() {
@@ -40,7 +44,7 @@ class VCImageSwitcher: UIViewController {
         
         //Below code in this method is optional.
         switcher.backgroundColor = myColor //default : clear
-        switcher.setContentMode(contentMode: .scaleToFill) //default : scaleToFill
+        switcher.setContentMode(contentMode: .scaleAspectFit) //default : scaleToFill
         switcher.delay = 1 //default : 1
         switcher.duration = 1 //default : 1
         switcher.isAutoScroll = true //default : true
@@ -54,6 +58,11 @@ class VCImageSwitcher: UIViewController {
         //Set action when scrolling is finish. This work only 'isInfiniteScrolling' is false
         switcher.finishScrollAction = {
             self.btStartOrStop.setTitle("Restart", for: .normal)
+        }
+        
+        //Set action when item is changed(scrolled)
+        switcher.didChangeItemAction = {
+            print("DDImageSwitcher >> didChangeItemAction !!")
         }
     }
     
