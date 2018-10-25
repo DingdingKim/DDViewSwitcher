@@ -46,9 +46,9 @@ open class DDTextSwitcher: UIView {
     }
     
     //Action when view is tapped
-    open var tapAction: ((Void) -> Void)?
-    open var finishScrollAction: ((Void) -> Void)?
-    open var didChangeItemAction: ((Void) -> Void)?
+    open var tapAction: (() -> Void)?
+    open var finishScrollAction: (() -> Void)?
+    open var didChangeItemAction: (() -> Void)?
     
     public init(frame: CGRect, data: [String], scrollDirection: ScrollDirection) {
         super.init(frame: frame)
